@@ -1,0 +1,47 @@
+Welcome to PsychoPy3!
+# Initialisiere das Fenster
+win = visual.Window(size=[800, 600], color=(0, 0, 0), units="pix")
+
+# Liste von Farben
+colors = ['red', 'green', 'blue', 'yellow']
+
+# Setze den Timer
+reaction_times = []
+
+# Definiere eine Funktion für den Farbreaktionstest
+def run_reaction_test():
+    # Zufällige Farbe auswählen
+    color = random.choice(colors)
+   
+    # Zeige ein Rechteck in der zufälligen Farbe
+    square = visual.Rect(win, width=200, height=200, fillColor=color, lineColor=color)
+    square.draw()
+   
+    # Beginne mit dem Timer, um die Reaktionszeit zu messen
+    win.flip()  # Zeige das Rechteck
+    start_time = core.getTime()  # Starte den Timer
+   
+    # Warte auf eine Tasteneingabe vom Teilnehmer (z.B. 'space' oder eine andere Taste)
+    keys = event.waitKeys(keyList=['space'])  # Wartet auf die 'Space'-Taste
+   
+    # Miss die Reaktionszeit
+    reaction_time = core.getTime() - start_time
+   
+    # Speichere die Reaktionszeit und die Farbe
+    reaction_times.append({'color': color, 'reaction_time': reaction_time})
+   
+    # Zeige eine kurze Pause nach der Reaktion
+    core.wait(0.5)
+
+# Hauptschleife für 10 Tests (du kannst die Anzahl anpassen)
+for trial in range(10):
+    run_reaction_test()
+
+# Zeige die gesammelten Ergebnisse im Konsolen-Log
+print("Reaktionszeiten und Farben:")
+for result in reaction_times:
+    print(f"Farbe: {result['color']}, Reaktionszeit: {result['reaction_time']:.3f} Sekunden")
+
+# Schließe das Fenster
+win.close()
+core.quit()
